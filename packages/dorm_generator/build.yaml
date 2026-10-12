@@ -1,0 +1,17 @@
+builders:
+  dorm:
+    import: "package:dorm_generator/dorm_generator.dart"
+    builder_factories: ["dormBuilder"]
+    build_extensions: {".dart": [".dorm.g.part"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+
+  dorm_init:
+    import: "package:dorm_generator/dorm_generator.dart"
+    builder_factories: ["dormInitBuilder"]
+    build_extensions: {"$lib$": ["dorm.init.dart"]}
+    auto_apply: root_package
+    build_to: source
+    runs_before: ["dorm_generator:dorm"]
+
