@@ -3,11 +3,11 @@
 part of 'todo.dart';
 
 // **************************************************************************
-// DormGenerator
+// RelicGenerator
 // **************************************************************************
 
-/// Generated DORM Schema for [Todo]
-final todoDormSchema = ModelSchema<Todo>(
+/// Generated RELIC Schema for [Todo]
+final todoRelicSchema = ModelSchema<Todo>(
   modelType: Todo,
   tableName: 'todos',
   primaryKey: 'id',
@@ -31,8 +31,8 @@ final todoDormSchema = ModelSchema<Todo>(
   fromMap: (map) => Todo.fromMap(map),
 );
 
-/// Extension providing DORM serialization & helpers for [Todo]
-extension TodoDormExtension on Todo {
+/// Extension providing RELIC serialization & helpers for [Todo]
+extension TodoRelicExtension on Todo {
   Map<String, dynamic> toMap() => {
         if (id != null) 'id': id,
         if (createdAt != null) 'created_at': createdAt?.toIso8601String(),
@@ -64,5 +64,5 @@ Todo _$TodoFromMap(Map<String, dynamic> map) {
 
 /// Auto-registers [Todo] into SchemaRegistry.
 void registerTodoSchema() {
-  SchemaRegistry.register<Todo>(todoDormSchema);
+  SchemaRegistry.register<Todo>(todoRelicSchema);
 }

@@ -1,4 +1,4 @@
-# dorm_example
+# relic_example
 
 A new Flutter project.
 

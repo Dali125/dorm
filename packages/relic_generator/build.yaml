@@ -1,0 +1,17 @@
+builders:
+  relic:
+    import: "package:relic_generator/relic_generator.dart"
+    builder_factories: ["relicBuilder"]
+    build_extensions: {".dart": [".relic.g.part"]}
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+
+  relic_init:
+    import: "package:relic_generator/relic_generator.dart"
+    builder_factories: ["relicInitBuilder"]
+    build_extensions: {"$lib$": ["relic.init.dart"]}
+    auto_apply: root_package
+    build_to: source
+    runs_before: ["relic_generator:relic"]
+

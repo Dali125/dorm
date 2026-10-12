@@ -1,9 +1,9 @@
-import 'package:dorm/dorm.dart';
+import 'package:relic/relic.dart';
 
 part 'todo.g.dart';
 
-@DormEntity()
-class Todo extends DormModel with DormHooks {
+@RelicEntity()
+class Todo extends RelicModel with RelicHooks {
   String title;
   bool isCompleted;
 

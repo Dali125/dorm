@@ -6,17 +6,17 @@ import 'logger.dart';
 import 'query_builder.dart';
 import 'schema.dart';
 
-/// Core DORM database instance for Flutter.
-class DormDB {
+/// Core RELIC database instance for Flutter.
+class RelicDB {
   final DatabaseExecutor _executor;
   final bool isTransaction;
-  final DormLogger logger;
+  final RelicLogger logger;
 
-  DormDB(
+  RelicDB(
     this._executor, {
     this.isTransaction = false,
-    DormLogger? logger,
-  }) : logger = logger ?? DormLogger.standard;
+    RelicLogger? logger,
+  }) : logger = logger ?? RelicLogger.standard;
 
   DatabaseExecutor get executor => _executor;
 
@@ -52,17 +52,17 @@ class DormDB {
   }
 
   /// Starts a query chain scoped to Model type [T].
-  DormScope<T> model<T>() {
+  RelicScope<T> model<T>() {
     final schema = SchemaRegistry.get<T>();
     if (schema == null) {
       throw ArgumentError('Model $T is not registered in SchemaRegistry');
     }
-    return DormScope<T>(this, QueryBuilder<T>(schema: schema));
+    return RelicScope<T>(this, QueryBuilder<T>(schema: schema));
   }
 
   /// Starts a query chain targeting a specific raw table name.
-  DormScope<Map<String, dynamic>> table(String tableName) {
-    return DormScope<Map<String, dynamic>>(
+  RelicScope<Map<String, dynamic>> table(String tableName) {
+    return RelicScope<Map<String, dynamic>>(
       this,
       QueryBuilder<Map<String, dynamic>>(tableName: tableName),
     );
@@ -198,7 +198,7 @@ class DormDB {
   }
 
   /// Runs function inside an isolated database transaction.
-  Future<R> transaction<R>(Future<R> Function(DormDB tx) action) async {
+  Future<R> transaction<R>(Future<R> Function(RelicDB tx) action) async {
     final exec = _executor;
     if (exec is! Database) {
       // Already inside a transaction executor
@@ -206,71 +206,71 @@ class DormDB {
     }
 
     return await exec.transaction<R>((txn) async {
-      final txDorm = DormDB(txn, isTransaction: true, logger: logger);
-      return await action(txDorm);
+      final txRelic = RelicDB(txn, isTransaction: true, logger: logger);
+      return await action(txRelic);
     });
   }
 }
 
-/// Backwards compatibility alias for [DormDB].
-typedef GormDB = DormDB;
+/// Backwards compatibility alias for [RelicDB].
+typedef GormDB = RelicDB;
 
-/// Fluent query scope representing an active DORM query chain for model [T].
-class DormScope<T> {
-  final DormDB _db;
+/// Fluent query scope representing an active RELIC query chain for model [T].
+class RelicScope<T> {
+  final RelicDB _db;
   final QueryBuilder<T> _builder;
 
-  DormScope(this._db, this._builder);
+  RelicScope(this._db, this._builder);
 
   QueryBuilder<T> get builder => _builder;
 
   /// Changes target table name.
-  DormScope<T> table(String name) => DormScope<T>(_db, _builder.table(name));
+  RelicScope<T> table(String name) => RelicScope<T>(_db, _builder.table(name));
 
   /// SELECT specific columns.
-  DormScope<T> select(List<String> columns) => DormScope<T>(_db, _builder.select(columns));
+  RelicScope<T> select(List<String> columns) => RelicScope<T>(_db, _builder.select(columns));
 
   /// SELECT DISTINCT.
-  DormScope<T> distinct([bool isDistinct = true]) => DormScope<T>(_db, _builder.distinct(isDistinct));
+  RelicScope<T> distinct([bool isDistinct = true]) => RelicScope<T>(_db, _builder.distinct(isDistinct));
 
   /// Adds WHERE condition.
-  DormScope<T> where(dynamic query, [List<dynamic>? args]) =>
-      DormScope<T>(_db, _builder.where(query, args));
+  RelicScope<T> where(dynamic query, [List<dynamic>? args]) =>
+      RelicScope<T>(_db, _builder.where(query, args));
 
   /// Adds OR condition.
-  DormScope<T> or(String condition, [List<dynamic>? args]) =>
-      DormScope<T>(_db, _builder.or(condition, args));
+  RelicScope<T> or(String condition, [List<dynamic>? args]) =>
+      RelicScope<T>(_db, _builder.or(condition, args));
 
   /// Adds NOT condition.
-  DormScope<T> not(String condition, [List<dynamic>? args]) =>
-      DormScope<T>(_db, _builder.not(condition, args));
+  RelicScope<T> not(String condition, [List<dynamic>? args]) =>
+      RelicScope<T>(_db, _builder.not(condition, args));
 
   /// Adds JOIN clause.
-  DormScope<T> joins(String table, String onCondition, {String type = 'INNER JOIN'}) =>
-      DormScope<T>(_db, _builder.joins(table, onCondition, type: type));
+  RelicScope<T> joins(String table, String onCondition, {String type = 'INNER JOIN'}) =>
+      RelicScope<T>(_db, _builder.joins(table, onCondition, type: type));
 
   /// Sets ORDER BY.
-  DormScope<T> order(String column, {bool ascending = true}) =>
-      DormScope<T>(_db, _builder.order(column, ascending: ascending));
+  RelicScope<T> order(String column, {bool ascending = true}) =>
+      RelicScope<T>(_db, _builder.order(column, ascending: ascending));
 
   /// Sets GROUP BY.
-  DormScope<T> group(String column) => DormScope<T>(_db, _builder.group(column));
+  RelicScope<T> group(String column) => RelicScope<T>(_db, _builder.group(column));
 
   /// Sets HAVING condition.
-  DormScope<T> having(String condition, [List<dynamic>? args]) =>
-      DormScope<T>(_db, _builder.having(condition, args));
+  RelicScope<T> having(String condition, [List<dynamic>? args]) =>
+      RelicScope<T>(_db, _builder.having(condition, args));
 
   /// Sets LIMIT.
-  DormScope<T> limit(int count) => DormScope<T>(_db, _builder.limit(count));
+  RelicScope<T> limit(int count) => RelicScope<T>(_db, _builder.limit(count));
 
   /// Sets OFFSET.
-  DormScope<T> offset(int count) => DormScope<T>(_db, _builder.offset(count));
+  RelicScope<T> offset(int count) => RelicScope<T>(_db, _builder.offset(count));
 
   /// Unscoped disables soft-delete filtering.
-  DormScope<T> unscoped() => DormScope<T>(_db, _builder.unscoped());
+  RelicScope<T> unscoped() => RelicScope<T>(_db, _builder.unscoped());
 
   /// Eager-loads relationship.
-  DormScope<T> preload(String association) => DormScope<T>(_db, _builder.preload(association));
+  RelicScope<T> preload(String association) => RelicScope<T>(_db, _builder.preload(association));
 
   /// Finds all matching records.
   Future<List<T>> find() async {
@@ -455,6 +455,6 @@ class DormScope<T> {
   }
 }
 
-/// Backwards compatibility alias for [DormScope].
-typedef GormScope<T> = DormScope<T>;
+/// Backwards compatibility alias for [RelicScope].
+typedef GormScope<T> = RelicScope<T>;
 

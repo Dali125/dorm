@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:dorm/dorm.dart';
+import 'package:relic/relic.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-/// Example User model implementing DormModel and DormHooks.
-class User extends DormModel with DormHooks {
+/// Example User model implementing RelicModel and RelicHooks.
+class User extends RelicModel with RelicHooks {
   String name;
   int age;
   String email;
@@ -73,8 +73,8 @@ void main() {
     );
   });
 
-  test('AutoMigrate creates table and DORM CRUD operations', () async {
-    final db = await Dorm.openInMemory();
+  test('AutoMigrate creates table and RELIC CRUD operations', () async {
+    final db = await Relic.openInMemory();
 
     // 1. AutoMigrate
     await db.autoMigrate([User]);

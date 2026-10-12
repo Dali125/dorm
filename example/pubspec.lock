@@ -185,20 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
-  dorm:
-    dependency: "direct main"
-    description:
-      path: "../packages/dorm"
-      relative: true
-    source: path
-    version: "0.1.0"
-  dorm_generator:
-    dependency: "direct dev"
-    description:
-      path: "../packages/dorm_generator"
-      relative: true
-    source: path
-    version: "0.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -465,6 +451,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  relic:
+    dependency: "direct main"
+    description:
+      path: "../packages/relic"
+      relative: true
+    source: path
+    version: "0.1.0"
+  relic_generator:
+    dependency: "direct dev"
+    description:
+      path: "../packages/relic_generator"
+      relative: true
+    source: path
+    version: "0.1.0"
   shelf:
     dependency: transitive
     description:

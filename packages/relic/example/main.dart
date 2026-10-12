@@ -1,8 +1,8 @@
-import 'package:dorm/dorm.dart';
+import 'package:relic/relic.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 // In a real project with code generation, these would be generated in `user.g.dart`:
-class User extends DormModel with DormHooks {
+class User extends RelicModel with RelicHooks {
   String name;
   int age;
   String email;
@@ -39,7 +39,7 @@ class User extends DormModel with DormHooks {
 void main() async {
   sqfliteFfiInit();
 
-  // 1. Register model schema (usually done automatically by initDorm())
+  // 1. Register model schema (usually done automatically by initRelic())
   SchemaRegistry.register<User>(
     ModelSchema<User>(
       modelType: User,
@@ -62,9 +62,9 @@ void main() async {
     ),
   );
 
-  // 2. Open SQLite database with standard GORM/DORM logger enabled
-  final db = await Dorm.openInMemory(
-    options: DormOpenOptions(logger: DormLogger.standard),
+  // 2. Open SQLite database with standard GORM/RELIC logger enabled
+  final db = await Relic.openInMemory(
+    options: RelicOpenOptions(logger: RelicLogger.standard),
   );
 
   // 3. Auto-migrate schema

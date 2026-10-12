@@ -1,11 +1,11 @@
-/// Log levels for DORM logger.
-enum DormLogLevel { silent, error, warn, info }
+/// Log levels for RELIC logger.
+enum RelicLogLevel { silent, error, warn, info }
 
-/// Backwards compatibility alias for [DormLogLevel].
-typedef GormLogLevel = DormLogLevel;
+/// Backwards compatibility alias for [RelicLogLevel].
+typedef GormLogLevel = RelicLogLevel;
 
 /// Structured SQL logger interface matching Golang GORM logger.
-abstract class DormLogger {
+abstract class RelicLogger {
   void logQuery({
     required String sql,
     List<dynamic>? params,
@@ -19,23 +19,23 @@ abstract class DormLogger {
   void logError(String message, [Object? error]);
 
   /// Default logger printing colored / structured logs to console.
-  static DormLogger get standard => DefaultDormLogger(level: DormLogLevel.info);
+  static RelicLogger get standard => DefaultRelicLogger(level: RelicLogLevel.info);
 
   /// Silent logger that outputs nothing.
-  static DormLogger get silent => SilentDormLogger();
+  static RelicLogger get silent => SilentRelicLogger();
 }
 
-/// Backwards compatibility alias for [DormLogger].
-typedef GormLogger = DormLogger;
+/// Backwards compatibility alias for [RelicLogger].
+typedef GormLogger = RelicLogger;
 
-/// Default implementation of DORM structured SQL logging.
-class DefaultDormLogger implements DormLogger {
-  final DormLogLevel level;
+/// Default implementation of RELIC structured SQL logging.
+class DefaultRelicLogger implements RelicLogger {
+  final RelicLogLevel level;
   final Duration slowThreshold;
   final bool colorful;
 
-  DefaultDormLogger({
-    this.level = DormLogLevel.info,
+  DefaultRelicLogger({
+    this.level = RelicLogLevel.info,
     this.slowThreshold = const Duration(milliseconds: 200),
     this.colorful = true,
   });
@@ -48,7 +48,7 @@ class DefaultDormLogger implements DormLogger {
     int? rowsAffected,
     Object? error,
   }) {
-    if (level == DormLogLevel.silent) return;
+    if (level == RelicLogLevel.silent) return;
 
     final ms = duration.inMicroseconds / 1000.0;
     final timeStr = '${ms.toStringAsFixed(2)}ms';
@@ -56,49 +56,49 @@ class DefaultDormLogger implements DormLogger {
     final paramStr = (params != null && params.isNotEmpty) ? ' | params: $params' : '';
 
     if (error != null) {
-      if (level.index >= DormLogLevel.error.index) {
+      if (level.index >= RelicLogLevel.error.index) {
         // ignore: avoid_print
-        print(_red('[DORM:ERROR] ($timeStr) $sql$paramStr => Error: $error'));
+        print(_red('[RELIC:ERROR] ($timeStr) $sql$paramStr => Error: $error'));
       }
       return;
     }
 
     if (duration >= slowThreshold) {
-      if (level.index >= DormLogLevel.warn.index) {
+      if (level.index >= RelicLogLevel.warn.index) {
         // ignore: avoid_print
-        print(_yellow('[DORM:SLOW QUERY] ($timeStr) $rowsStr $sql$paramStr'));
+        print(_yellow('[RELIC:SLOW QUERY] ($timeStr) $rowsStr $sql$paramStr'));
       }
       return;
     }
 
-    if (level.index >= DormLogLevel.info.index) {
+    if (level.index >= RelicLogLevel.info.index) {
       // ignore: avoid_print
-      print('${_cyan('[DORM]')} ($timeStr) $rowsStr $sql$paramStr');
+      print('${_cyan('[RELIC]')} ($timeStr) $rowsStr $sql$paramStr');
     }
   }
 
   @override
   void logInfo(String message) {
-    if (level.index >= DormLogLevel.info.index) {
+    if (level.index >= RelicLogLevel.info.index) {
       // ignore: avoid_print
-      print('${_cyan('[DORM:INFO] ')}$message');
+      print('${_cyan('[RELIC:INFO] ')}$message');
     }
   }
 
   @override
   void logWarn(String message) {
-    if (level.index >= DormLogLevel.warn.index) {
+    if (level.index >= RelicLogLevel.warn.index) {
       // ignore: avoid_print
-      print('${_yellow('[DORM:WARN] ')}$message');
+      print('${_yellow('[RELIC:WARN] ')}$message');
     }
   }
 
   @override
   void logError(String message, [Object? error]) {
-    if (level.index >= DormLogLevel.error.index) {
+    if (level.index >= RelicLogLevel.error.index) {
       final err = error != null ? ' ($error)' : '';
       // ignore: avoid_print
-      print('${_red('[DORM:ERROR] ')}$message$err');
+      print('${_red('[RELIC:ERROR] ')}$message$err');
     }
   }
 
@@ -107,10 +107,10 @@ class DefaultDormLogger implements DormLogger {
   String _red(String text) => colorful ? '\x1B[31m$text\x1B[0m' : text;
 }
 
-/// Backwards compatibility alias for [DefaultDormLogger].
-typedef DefaultGormLogger = DefaultDormLogger;
+/// Backwards compatibility alias for [DefaultRelicLogger].
+typedef DefaultGormLogger = DefaultRelicLogger;
 
-class SilentDormLogger implements DormLogger {
+class SilentRelicLogger implements RelicLogger {
   @override
   void logQuery({
     required String sql,
@@ -130,6 +130,6 @@ class SilentDormLogger implements DormLogger {
   void logError(String message, [Object? error]) {}
 }
 
-/// Backwards compatibility alias for [SilentDormLogger].
-typedef SilentGormLogger = SilentDormLogger;
+/// Backwards compatibility alias for [SilentRelicLogger].
+typedef SilentGormLogger = SilentRelicLogger;
 

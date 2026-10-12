@@ -1,9 +1,9 @@
-name: dorm
-description: "Dorm: A fluent, GORM-inspired ORM for Flutter and Dart with auto-migrations and zero-boilerplate code generation."
+name: relic
+description: "Relic: A fluent, GORM-inspired ORM for Flutter and Dart with auto-migrations and zero-boilerplate code generation."
 version: 0.1.0
-homepage: https://github.com/Dali125/dorm
-repository: https://github.com/Dali125/dorm/tree/main/packages/dorm
-issue_tracker: https://github.com/Dali125/dorm/issues
+homepage: https://github.com/Dali125/relic
+repository: https://github.com/Dali125/relic/tree/main/packages/relic
+issue_tracker: https://github.com/Dali125/relic/issues
 
 environment:
   sdk: ^3.13.5

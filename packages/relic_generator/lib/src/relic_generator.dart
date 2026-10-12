@@ -1,12 +1,12 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
-import 'package:dorm/dorm.dart';
+import 'package:relic/relic.dart';
 import 'package:source_gen/source_gen.dart';
 
-/// Generator that reads classes annotated with `@DormEntity` or `@Table`
+/// Generator that reads classes annotated with `@RelicEntity` or `@Table`
 /// and generates schema definitions, serialization (toMap / fromMap), and copyWith.
-class DormGenerator extends GeneratorForAnnotation<DormEntity> {
+class RelicGenerator extends GeneratorForAnnotation<RelicEntity> {
   @override
   String generateForAnnotatedElement(
     Element element,
@@ -15,7 +15,7 @@ class DormGenerator extends GeneratorForAnnotation<DormEntity> {
   ) {
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        '`@DormEntity` can only be applied to classes.',
+        '`@RelicEntity` can only be applied to classes.',
         element: element,
       );
     }
@@ -30,8 +30,8 @@ class DormGenerator extends GeneratorForAnnotation<DormEntity> {
     final buffer = StringBuffer();
 
     // 1. Generate Schema variable
-    buffer.writeln('/// Generated DORM Schema for [$className]');
-    buffer.writeln('final ${className.toLowerCase()}DormSchema = ModelSchema<$className>(');
+    buffer.writeln('/// Generated RELIC Schema for [$className]');
+    buffer.writeln('final ${className.toLowerCase()}RelicSchema = ModelSchema<$className>(');
     buffer.writeln('  modelType: $className,');
     buffer.writeln('  tableName: \'$tableName\',');
     buffer.writeln('  primaryKey: \'id\',');
@@ -40,7 +40,7 @@ class DormGenerator extends GeneratorForAnnotation<DormEntity> {
     buffer.writeln('  updatedAtColumn: \'updated_at\',');
     buffer.writeln('  columns: {');
 
-    // Base DormModel columns
+    // Base RelicModel columns
     buffer.writeln('    \'id\': ColumnMeta(name: \'id\', sqlType: \'INTEGER\', isPrimaryKey: true, autoIncrement: true),');
     buffer.writeln('    \'created_at\': ColumnMeta(name: \'created_at\', sqlType: \'TEXT\'),');
     buffer.writeln('    \'updated_at\': ColumnMeta(name: \'updated_at\', sqlType: \'TEXT\'),');
@@ -62,8 +62,8 @@ class DormGenerator extends GeneratorForAnnotation<DormEntity> {
     buffer.writeln();
 
     // 2. Generate helper extension on Model
-    buffer.writeln('/// Extension providing DORM serialization & helpers for [$className]');
-    buffer.writeln('extension ${className}DormExtension on $className {');
+    buffer.writeln('/// Extension providing RELIC serialization & helpers for [$className]');
+    buffer.writeln('extension ${className}RelicExtension on $className {');
 
     // toMap()
     buffer.writeln('  Map<String, dynamic> toMap() => {');
@@ -120,7 +120,7 @@ class DormGenerator extends GeneratorForAnnotation<DormEntity> {
     // 4. Generate Auto-register call
     buffer.writeln('/// Auto-registers [$className] into SchemaRegistry.');
     buffer.writeln('void register${className}Schema() {');
-    buffer.writeln('  SchemaRegistry.register<$className>(${className.toLowerCase()}DormSchema);');
+    buffer.writeln('  SchemaRegistry.register<$className>(${className.toLowerCase()}RelicSchema);');
     buffer.writeln('}');
 
 

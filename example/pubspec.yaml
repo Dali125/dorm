@@ -1,4 +1,4 @@
-name: dorm_example
+name: relic_example
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -34,15 +34,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   sqflite: ^2.3.0
   path: ^1.9.0
-  dorm:
-    path: ../packages/dorm
+  relic:
+    path: ../packages/relic
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.4.8
-  dorm_generator:
-    path: ../packages/dorm_generator
+  relic_generator:
+    path: ../packages/relic_generator
   flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the

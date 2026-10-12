@@ -1,6 +1,6 @@
 import 'dart:async';
 
-/// Hooks / Lifecycle callbacks analogous to DORM's Hook interface.
+/// Hooks / Lifecycle callbacks analogous to RELIC's Hook interface.
 ///
 /// Available Hooks:
 /// - beforeSave / afterSave
@@ -8,7 +8,7 @@ import 'dart:async';
 /// - beforeUpdate / afterUpdate
 /// - beforeDelete / afterDelete
 /// - afterFind
-mixin DormHooks {
+mixin RelicHooks {
   FutureOr<void> beforeCreate(Map<String, dynamic> data) {}
   FutureOr<void> afterCreate(Map<String, dynamic> data) {}
 
@@ -24,6 +24,6 @@ mixin DormHooks {
   FutureOr<void> afterFind(Map<String, dynamic> data) {}
 }
 
-/// Backwards compatibility alias for [DormHooks].
-typedef GormHooks = DormHooks;
+/// Backwards compatibility alias for [RelicHooks].
+typedef GormHooks = RelicHooks;
 

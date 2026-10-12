@@ -1,40 +1,40 @@
-# Dorm Generator ⚙️
+# Relic Generator ⚙️
 
-Code generator for [Dorm](https://pub.dev/packages/dorm).
+Code generator for [Relic](https://pub.dev/packages/relic).
 
 Automatically generates:
 - `ModelSchema<T>` schema column mappings and auto-migration metadata.
 - `toMap()` extensions and `_$ModelFromMap()` deserialization factories.
 - `registerXSchema()` registration hooks.
-- `lib/dorm.init.dart` aggregated auto-discovery registry with a single `initDorm()` call.
+- `lib/relic.init.dart` aggregated auto-discovery registry with a single `initRelic()` call.
 
 ---
 
 ## 📦 Installation
 
-Add `dorm_generator` under `dev_dependencies` in your `pubspec.yaml`:
+Add `relic_generator` under `dev_dependencies` in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  dorm: ^0.1.0
+  relic: ^0.1.0
 
 dev_dependencies:
   build_runner: ^2.4.8
-  dorm_generator: ^0.1.0
+  relic_generator: ^0.1.0
 ```
 
 ---
 
 ## 🚀 Usage
 
-1. Mark your model with `@DormEntity()` and include the `part` directive:
+1. Mark your model with `@RelicEntity()` and include the `part` directive:
 ```dart
-import 'package:dorm/dorm.dart';
+import 'package:relic/relic.dart';
 
 part 'user.g.dart';
 
-@DormEntity()
-class User extends DormModel with DormHooks {
+@RelicEntity()
+class User extends RelicModel with RelicHooks {
   String name;
   int age;
 
@@ -51,10 +51,10 @@ dart run build_runner build --delete-conflicting-outputs
 
 3. Initialize in your app:
 ```dart
-import 'dorm.init.dart';
+import 'relic.init.dart';
 
 void main() async {
-  initDorm(); // Auto-registers all @DormEntity models!
+  initRelic(); // Auto-registers all @RelicEntity models!
   ...
 }
 ```

@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:dorm/dorm.dart' hide Column;
+import 'package:relic/relic.dart' hide Column;
 
-import 'dorm.init.dart';
+import 'relic.init.dart';
 import 'models/todo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 1. Initialize Dorm schema discovery
-  initDorm();
+  // 1. Initialize Relic schema discovery
+  initRelic();
 
   // 2. Open SQLite Database
-  final dbPath = join(await getDatabasesPath(), 'dorm_example.db');
-  final db = await Dorm.open(
+  final dbPath = join(await getDatabasesPath(), 'relic_example.db');
+  final db = await Relic.open(
     dbPath,
-    options: DormOpenOptions(logger: DormLogger.standard),
+    options: RelicOpenOptions(logger: RelicLogger.standard),
   );
 
   // 3. AutoMigrate tables
   await db.autoMigrate([Todo]);
 
-  runApp(DormExampleApp(db: db));
+  runApp(RelicExampleApp(db: db));
 }
 
-class DormExampleApp extends StatelessWidget {
-  final DormDB db;
+class RelicExampleApp extends StatelessWidget {
+  final RelicDB db;
 
-  const DormExampleApp({super.key, required this.db});
+  const RelicExampleApp({super.key, required this.db});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dorm Example',
+      title: 'Relic Example',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -44,7 +44,7 @@ class DormExampleApp extends StatelessWidget {
 }
 
 class TodoListPage extends StatefulWidget {
-  final DormDB db;
+  final RelicDB db;
 
   const TodoListPage({super.key, required this.db});
 
@@ -102,7 +102,7 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dorm Todos 🛋️'),
+        title: const Text('Relic Todos 🛋️'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Column(

@@ -9,17 +9,17 @@ class Table {
   const Table({this.name});
 }
 
-/// Primary annotation to trigger the DORM code generator on a model class.
+/// Primary annotation to trigger the RELIC code generator on a model class.
 @immutable
-class DormEntity {
+class RelicEntity {
   /// Optional custom table name. If not specified, snake_case plural is used.
   final String? tableName;
 
-  const DormEntity({this.tableName});
+  const RelicEntity({this.tableName});
 }
 
-/// Backwards compatibility alias for [DormEntity].
-typedef GormEntity = DormEntity;
+/// Backwards compatibility alias for [RelicEntity].
+typedef GormEntity = RelicEntity;
 
 /// Marks a field to be ignored/excluded from database mapping.
 @immutable
@@ -27,14 +27,14 @@ class Ignore {
   const Ignore();
 }
 
-/// Dorm model base class providing id, createdAt, updatedAt, and deletedAt fields.
-class DormModel {
+/// Relic model base class providing id, createdAt, updatedAt, and deletedAt fields.
+class RelicModel {
   int? id;
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
 
-  DormModel({this.id, this.createdAt, this.updatedAt, this.deletedAt});
+  RelicModel({this.id, this.createdAt, this.updatedAt, this.deletedAt});
 
   Map<String, dynamic> toMap() => {
         if (id != null) 'id': id,
@@ -44,12 +44,12 @@ class DormModel {
       };
 }
 
-/// Backwards compatibility alias for [DormModel].
-typedef GormModel = DormModel;
+/// Backwards compatibility alias for [RelicModel].
+typedef GormModel = RelicModel;
 
-/// Marks a field with DORM column configuration.
+/// Marks a field with RELIC column configuration.
 @immutable
-class DormColumn {
+class RelicColumn {
   /// Column name in the table. If null, field name is snake_cased.
   final String? name;
 
@@ -77,7 +77,7 @@ class DormColumn {
   /// Foreign key definition (e.g. 'users(id)').
   final String? foreignKey;
 
-  const DormColumn({
+  const RelicColumn({
     this.name,
     this.type,
     this.primaryKey = false,
@@ -90,8 +90,8 @@ class DormColumn {
   });
 }
 
-/// Backwards compatibility alias for [DormColumn].
-typedef Column = DormColumn;
+/// Backwards compatibility alias for [RelicColumn].
+typedef Column = RelicColumn;
 
 /// Primary key column shorthand.
 @immutable
