@@ -13,6 +13,9 @@ dependencies:
   source_gen: ^1.5.0
   analyzer: ^6.4.1
   glob: ^2.1.2
+  dorm: ^0.1.0
+
+dependency_overrides:
   dorm:
     path: ../dorm
 
