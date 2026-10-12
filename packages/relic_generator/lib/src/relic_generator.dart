@@ -46,18 +46,92 @@ class RelicGenerator extends GeneratorForAnnotation<RelicEntity> {
     buffer.writeln('    \'updated_at\': ColumnMeta(name: \'updated_at\', sqlType: \'TEXT\'),');
     buffer.writeln('    \'deleted_at\': ColumnMeta(name: \'deleted_at\', sqlType: \'TEXT\'),');
 
+    final columnChecker = const TypeChecker.fromRuntime(RelicColumn);
+
     for (final field in fields) {
-      final colName = _toSnakeCase(field.name);
-      final sqlType = _dartTypeToSql(field.type);
-      final isNullable = field.type.nullabilitySuffix.toString().contains('question');
-      buffer.writeln(
-        '    \'$colName\': ColumnMeta(name: \'$colName\', sqlType: \'$sqlType\', isNullable: $isNullable),',
-      );
+      String colName = _toSnakeCase(field.name);
+      String sqlType = _dartTypeToSql(field.type);
+      bool isNullable = field.type.nullabilitySuffix.toString().contains('question');
+      bool isPrimaryKey = false;
+      bool autoIncrement = false;
+      bool isUnique = false;
+      String? defaultValue;
+      String? index;
+      String? foreignKey;
+
+      if (columnChecker.hasAnnotationOf(field)) {
+        final colAnn = columnChecker.firstAnnotationOf(field);
+        if (colAnn != null) {
+          final reader = ConstantReader(colAnn);
+          final customName = reader.peek('name')?.stringValue;
+          if (customName != null && customName.isNotEmpty) {
+            colName = customName;
+          }
+          final customType = reader.peek('type')?.stringValue;
+          if (customType != null && customType.isNotEmpty) {
+            sqlType = customType;
+          }
+          isPrimaryKey = reader.peek('primaryKey')?.boolValue ?? false;
+          autoIncrement = reader.peek('autoIncrement')?.boolValue ?? false;
+          isNullable = reader.peek('nullable')?.boolValue ?? isNullable;
+          isUnique = reader.peek('unique')?.boolValue ?? false;
+          defaultValue = reader.peek('defaultValue')?.stringValue;
+          index = reader.peek('index')?.stringValue;
+          foreignKey = reader.peek('foreignKey')?.stringValue;
+        }
+      }
+
+      final colMetaArgs = StringBuffer("name: '$colName', sqlType: '$sqlType'");
+      if (isPrimaryKey) colMetaArgs.write(", isPrimaryKey: true");
+      if (autoIncrement) colMetaArgs.write(", autoIncrement: true");
+      if (!isNullable) colMetaArgs.write(", isNullable: false");
+      if (isUnique) colMetaArgs.write(", isUnique: true");
+      if (defaultValue != null) colMetaArgs.write(", defaultValue: '$defaultValue'");
+      if (index != null) colMetaArgs.write(", index: '$index'");
+      if (foreignKey != null) colMetaArgs.write(", foreignKey: '$foreignKey'");
+
+      buffer.writeln("    '$colName': ColumnMeta($colMetaArgs),");
     }
 
     buffer.writeln('  },');
     buffer.writeln('  toMap: (model) => model.toMap(),');
     buffer.writeln('  fromMap: (map) => $className.fromMap(map),');
+
+    // Parse associations
+    final hasManyChecker = const TypeChecker.fromRuntime(HasMany);
+    final belongsToChecker = const TypeChecker.fromRuntime(BelongsTo);
+    final assocEntries = <String>[];
+
+    for (final field in element.fields) {
+      if (hasManyChecker.hasAnnotationOf(field)) {
+        final ann = ConstantReader(hasManyChecker.firstAnnotationOf(field));
+        final target = ann.peek('target')?.typeValue;
+        final fk = ann.peek('foreignKey')?.stringValue ?? '${_toSnakeCase(className)}_id';
+        if (target != null) {
+          assocEntries.add(
+            "    AssociationMeta(fieldName: '${field.name}', targetType: ${target.getDisplayString(withNullability: false)}, type: AssociationType.hasMany, foreignKey: '$fk')",
+          );
+        }
+      } else if (belongsToChecker.hasAnnotationOf(field)) {
+        final ann = ConstantReader(belongsToChecker.firstAnnotationOf(field));
+        final target = ann.peek('target')?.typeValue;
+        final fk = ann.peek('foreignKey')?.stringValue ?? '${_toSnakeCase(field.name)}_id';
+        if (target != null) {
+          assocEntries.add(
+            "    AssociationMeta(fieldName: '${field.name}', targetType: ${target.getDisplayString(withNullability: false)}, type: AssociationType.belongsTo, foreignKey: '$fk')",
+          );
+        }
+      }
+    }
+
+    if (assocEntries.isNotEmpty) {
+      buffer.writeln('  associations: [');
+      for (final a in assocEntries) {
+        buffer.writeln('$a,');
+      }
+      buffer.writeln('  ],');
+    }
+
     buffer.writeln(');');
     buffer.writeln();
 

@@ -119,6 +119,57 @@ void main() async {
 
 ---
 
+## 🔗 Foreign Keys & Relationships
+
+### 1. Foreign Key Constraint (`@RelicColumn`)
+Enforce SQLite foreign keys directly on a column:
+```dart
+@RelicEntity()
+class Post extends RelicModel with RelicHooks {
+  String title;
+
+  @RelicColumn(foreignKey: 'users(id)', nullable: false)
+  int userId;
+
+  Post({super.id, required this.title, required this.userId});
+
+  factory Post.fromMap(Map<String, dynamic> map) => _$PostFromMap(map);
+}
+```
+
+### 2. Associations (`@HasMany` & `@BelongsTo`)
+Define relational mappings for eager loading (`preload`) and joins:
+```dart
+@RelicEntity()
+class User extends RelicModel with RelicHooks {
+  String name;
+
+  @Ignore()
+  @HasMany(Post, foreignKey: 'user_id')
+  List<Post>? posts;
+
+  User({super.id, required this.name, this.posts});
+
+  factory User.fromMap(Map<String, dynamic> map) => _$UserFromMap(map);
+}
+```
+
+### 3. Querying Relationships
+```dart
+// Preload associated records
+final usersWithPosts = await db.model<User>().preload('posts').find();
+
+// Joins
+final postsByUser = await db
+    .model<Post>()
+    .joins('users', 'users.id = posts.user_id')
+    .where('users.name = ?', ['Alice'])
+    .find();
+```
+
+
+---
+
 ## 🪵 Structured SQL Logger
 
 Relic includes a built-in GORM-style console logger:
