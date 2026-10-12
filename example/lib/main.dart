@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:relic/relic.dart' hide Column;
+import 'package:relic_orm/relic_orm.dart' hide Column;
 
 import 'relic.init.dart';
 import 'models/todo.dart';

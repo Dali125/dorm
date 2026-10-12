@@ -18,7 +18,7 @@ A fluent, GORM-inspired ORM for Flutter and Dart. Designed for rapid development
 
 ## 📦 Installation
 
-Add `relic` and `relic_generator` to your `pubspec.yaml`:
+Add `relic` and `relic_orm_generator` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -26,7 +26,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.8
-  relic_generator: ^0.1.0
+  relic_orm_generator: ^0.1.0
 ```
 
 ---
@@ -38,7 +38,7 @@ dev_dependencies:
 Create your model in `lib/models/user.dart`:
 
 ```dart
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 
 part 'user.g.dart';
 
@@ -73,7 +73,7 @@ dart run build_runner build --delete-conflicting-outputs
 ### 3. Initialize & Query
 
 ```dart
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'relic.init.dart';

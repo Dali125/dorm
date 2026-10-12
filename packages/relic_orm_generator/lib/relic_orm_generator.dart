@@ -4,7 +4,7 @@ import 'src/relic_generator.dart';
 import 'src/relic_init_builder.dart';
 
 Builder relicBuilder(BuilderOptions options) =>
-    SharedPartBuilder([RelicGenerator()], 'relic');
+    SharedPartBuilder([RelicGenerator()], 'relic_orm');
 
 Builder relicInitBuilder(BuilderOptions options) =>
     RelicInitBuilder();

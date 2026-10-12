@@ -12,7 +12,7 @@ Automatically generates:
 
 ## 📦 Installation
 
-Add `relic_generator` under `dev_dependencies` in your `pubspec.yaml`:
+Add `relic_orm_generator` under `dev_dependencies` in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -20,7 +20,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.8
-  relic_generator: ^0.1.0
+  relic_orm_generator: ^0.1.0
 ```
 
 ---
@@ -29,7 +29,7 @@ dev_dependencies:
 
 1. Mark your model with `@RelicEntity()` and include the `part` directive:
 ```dart
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 
 part 'user.g.dart';
 

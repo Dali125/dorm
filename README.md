@@ -10,7 +10,7 @@ A fluent, GORM-inspired ORM for Flutter and Dart. Designed for rapid development
 relic/
 ├── packages/
 │   ├── relic/            # Core ORM runtime library
-│   └── relic_generator/  # Code generator for serialization & schema registry
+│   └── relic_orm_generator/  # Code generator for serialization & schema registry
 └── example/              # Full Flutter Todo app demonstrating Relic
 ```
 
@@ -34,7 +34,7 @@ relic/
 | Package | Description | Version |
 | :--- | :--- | :--- |
 | [`relic`](packages/relic) | Core fluent ORM runtime for Flutter and Dart | `^0.1.0` |
-| [`relic_generator`](packages/relic_generator) | Builder for code generation and auto-discovery | `^0.1.0` |
+| [`relic_orm_generator`](packages/relic_orm_generator) | Builder for code generation and auto-discovery | `^0.1.0` |
 
 ---
 
@@ -48,13 +48,13 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.8
-  relic_generator: ^0.1.0
+  relic_orm_generator: ^0.1.0
 ```
 
 ### 2. Define a Model
 
 ```dart
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 
 part 'todo.g.dart';
 
@@ -85,7 +85,7 @@ dart run build_runner build --delete-conflicting-outputs
 ### 4. Initialize and Query
 
 ```dart
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'relic.init.dart';

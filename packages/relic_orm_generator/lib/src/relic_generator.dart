@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 import 'package:source_gen/source_gen.dart';
 
 /// Generator that reads classes annotated with `@RelicEntity` or `@Table`

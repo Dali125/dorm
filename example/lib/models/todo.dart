@@ -1,4 +1,4 @@
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 
 part 'todo.g.dart';
 

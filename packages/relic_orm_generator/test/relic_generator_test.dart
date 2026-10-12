@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:relic_generator/relic_generator.dart';
+import 'package:relic_orm_generator/relic_orm_generator.dart';
 
 void main() {
   test('relicBuilder can be instantiated', () {

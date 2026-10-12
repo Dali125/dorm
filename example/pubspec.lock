@@ -451,17 +451,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
-  relic:
+  relic_orm:
     dependency: "direct main"
     description:
-      path: "../packages/relic"
+      path: "../packages/relic_orm"
       relative: true
     source: path
     version: "0.1.0"
-  relic_generator:
+  relic_orm_generator:
     dependency: "direct dev"
     description:
-      path: "../packages/relic_generator"
+      path: "../packages/relic_orm_generator"
       relative: true
     source: path
     version: "0.1.0"

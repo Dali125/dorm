@@ -1,4 +1,4 @@
-import 'package:relic/relic.dart';
+import 'package:relic_orm/relic_orm.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 // In a real project with code generation, these would be generated in `user.g.dart`:

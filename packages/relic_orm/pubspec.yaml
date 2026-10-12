@@ -1,9 +1,9 @@
-name: relic
-description: "Relic: A fluent, GORM-inspired ORM for Flutter and Dart with auto-migrations and zero-boilerplate code generation."
+name: relic_orm
+description: "Relic ORM: A fluent, GORM-inspired ORM for Flutter and Dart with auto-migrations, code generation, and structured SQL logging."
 version: 0.1.0
-homepage: https://github.com/Dali125/relic
-repository: https://github.com/Dali125/relic/tree/main/packages/relic
-issue_tracker: https://github.com/Dali125/relic/issues
+homepage: https://github.com/Dali125/relic_orm
+repository: https://github.com/Dali125/relic_orm/tree/main/packages/relic_orm
+issue_tracker: https://github.com/Dali125/relic_orm/issues
 
 environment:
   sdk: ^3.13.5

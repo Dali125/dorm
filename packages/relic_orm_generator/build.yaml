@@ -1,17 +1,17 @@
 builders:
-  relic:
-    import: "package:relic_generator/relic_generator.dart"
+  relic_orm:
+    import: "package:relic_orm_generator/relic_orm_generator.dart"
     builder_factories: ["relicBuilder"]
-    build_extensions: {".dart": [".relic.g.part"]}
+    build_extensions: {".dart": [".relic_orm.g.part"]}
     auto_apply: dependents
     build_to: cache
     applies_builders: ["source_gen|combining_builder"]
 
-  relic_init:
-    import: "package:relic_generator/relic_generator.dart"
+  relic_orm_init:
+    import: "package:relic_orm_generator/relic_orm_generator.dart"
     builder_factories: ["relicInitBuilder"]
     build_extensions: {"$lib$": ["relic.init.dart"]}
     auto_apply: root_package
     build_to: source
-    runs_before: ["relic_generator:relic"]
+    runs_before: ["relic_orm_generator:relic_orm"]
 
